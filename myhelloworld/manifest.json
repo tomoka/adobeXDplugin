@@ -1,0 +1,27 @@
+{
+  "id": "c7091f9f",
+  "name": "hello colo",
+  "description": "hello colo!",
+  "version": "1.0.0",
+  "host": {
+    "app": "XD",
+    "minVersion": "13.0.0"
+  },
+  "uiEntryPoints": [
+      {
+      "type": "menu",
+      "label": "hello color",
+      "commandId": "helloCommand"
+    },
+      {
+      "type": "menu",
+      "label": "show an alert",
+      "commandId": "showAlert"
+    },
+    {
+      "type": "menu",
+      "label": "show an error",
+      "commandId": "showError"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "c7091f9f",
+  "name": "hello colo",
+  "description": "色の比較",
+  "version": "1.0.0",
+  "host": {
+    "app": "XD",
+    "minVersion": "13.0.0"
+  },
+  "uiEntryPoints": [
+      {
+      "type": "menu",
+      "label": "色の比較",
+      "commandId": "helloCommand"
+    }
+  ]
+}
