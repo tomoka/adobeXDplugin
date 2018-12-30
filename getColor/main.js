@@ -1,6 +1,7 @@
 // Add this to the top of your main.js file
 const { Artboard, Rectangle, Ellipse, Text, Color } = require("scenegraph");// XD拡張APIのクラスをインポート
 const { alert, error } = require("./lib/dialogs.js"); //ダイアログのクラスインポート
+//const { jQuery } = require("./jquery/dist/jquery.js");
 
 var el,R1_255,B1_255,G1_255,R1,B1,G1,R2_255,B2_255,G2_255,R2,B2,G2,colorL1,colorL2,nodeL1,nodeL2,nodeL1test,nodeL2test;
 
@@ -34,21 +35,13 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   nodeL1.width = 30;
   nodeL1.height = 20;
   nodeL1.moveInParentCoordinates(30,20);
-  nodeL1.fill = new Color("FFFFFF");
+  nodeL1.fill = new Color("000000");
 
   nodeL2 = new Rectangle();
   nodeL2.width = 40;
   nodeL2.height = 30;
   nodeL2.moveInParentCoordinates(60,10)
-  nodeL2.fill = new Color("333333");
-
-  /*nodeL1.fill.r = 234;
-  nodeL1.fill.g = 122;
-  nodeL1.fill.b = 56;
-
-  nodeL2.fill.r = 90;
-  nodeL2.fill.g = 167;
-  nodeL2.fill.b = 211;*/
+  nodeL2.fill = new Color("ffffff");
 
   documentRoot.items[0].addChild(nodeL1);
   documentRoot.items[0].addChild(nodeL2);
@@ -63,7 +56,7 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   B1_255 = nodeL1.fill.b/255;
   G1_255 = nodeL1.fill.g/255;
 
-  if(R1_255 < 0.3928){
+  if(R1_255 < 0.03928){
      R1 = R1_255/12.92;
   }else{
     //Math.pow(num1,num2)
@@ -71,7 +64,7 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   }
   console.log("色の相対輝度R1-->" + R1); // Developer Consoleに出力
 
-  if(B1_255 < 0.3928){
+  if(B1_255 < 0.03928){
      B1 = B1_255/12.92;
   }else{
     //Math.pow(num1,num2)
@@ -79,7 +72,7 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   }
   console.log("色の相対輝度B1-->" + B1); // Developer Consoleに出力
 
-  if(G1_255 < 0.3928){
+  if(G1_255 < 0.03928){
      G1 = G1_255/12.92;
   }else{
     //Math.pow(num1,num2)
@@ -94,7 +87,7 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
  B2_255 = nodeL2.fill.b/255;
  G2_255 = nodeL2.fill.g/255;
 
-  if(R2_255 < 0.3928){
+  if(R2_255 < 0.03928){
      R2 = R2_255/12.92;
   }else{
     //Math.pow(num1,num2)
@@ -102,7 +95,7 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   }
   console.log("色の相対輝度R2-->" + R2); // Developer Consoleに出力
 
-  if(B2_255 < 0.3928){
+  if(B2_255 < 0.03928){
      B2 = B2_255/12.92;
   }else{
     //Math.pow(num1,num2)
@@ -110,7 +103,7 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   }
   console.log("色の相対輝度B2-->" + B2); // Developer Consoleに出力
 
-  if(G2_255 < 0.3928){
+  if(G2_255 < 0.03928){
      G2 = G2_255/12.92;
   }else{
     //Math.pow(num1,num2)
@@ -119,28 +112,68 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   console.log("色の相対輝度G2-->" + G2); // Developer Consoleに出力
   
   //色の相対輝度出し方
-  //colorL1 = ((R1*0.2126) + (G1*0.7152) + (B1*0.0722)).toFixed(4)*21;
-  //colorL2 = ((R2*0.2126) + (G2*0.7152) + (B2*0.0722)).toFixed(4)*21;
-  colorL1 = ((R1 * 299) + (G1 * 587) + (B1 * 114)/1000);
-  colorL2 = ((R2 * 299) + (G2 * 587) + (B2 * 114)/1000);
+  colorL1 = ((R1 * 0.2126) + (G1 * 0.7152) + (B1 * 0.0722));
+  colorL2 = ((R2 * 0.2126) + (G2 * 0.7152) + (B2 * 0.0722));
 
   //console.log("色のコントラスト比@colorL1:colorL2-->" + colorL1 + " : " + colorL2); // Developer Consoleに出力
-  console.log("色のコントラスト比@colorL1:colorL-->" + (colorL1+0.005/colorL2+0.005)); // Developer Consoleに出力
+  console.log("色のコントラスト比@colorL1:colorL-->" + ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) ); // Developer Consoleに出力
   showAlert();
 }
 
-async function showAlert() {
+let dialog;
+let htmlString;
+function showAlert() {
     /* we'll display a dialog here */
     console.log("アラート");
-    let htmlString = "<p>" + colorL1 + ":" + colorL2 + "</p>";
-    await alert("色のコントラスト比" + htmlString);
+    //let htmlString = "<p>" + ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) + "</p>";
+    dialog = document.createElement("dialog");
+    htmlString = document.createElement("div");
+    htmlString.innerHTML = `
+        <style>
+        form {
+        width: 360px;
+        }
+        .h1 {
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: row;
+        }
+        .icon {
+        border-radius: 4px;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+        }
+        </style>
+        <form method="dialog">
+        <h1 class="h1">
+        <span>Create Shape</span>
+        <img class="icon" src="./assets/icon.png" />
+        </h1>
+        <hr />
+        <p>Please enter the kind of shape you d like to create. You can also include additional options by separating them with spaces.</p>
+        <label>
+        <span>`+ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) +`</span>
+        <input type="text" placeholder="e.g., Rectangle 10 10 20 40" />
+        </label>
+        <footer>
+        <button type="cancel" uxp-variant="primary">Cancel</button>
+        <button type="submit" uxp-variant="cta">Create</button>
+        </footer>
+        </form>
+    `;
+    //await alert("色のコントラスト比" + htmlString);
+    document.body.appendChild(dialog);
+    dialog.appendChild(htmlString);
+    dialog.showModal();
 }
 
 async function showError() {
     /* we'll display a dialog here */
     console.log("エラー");
 
-    let htmlString = "<p>" + colorL1 + "</p>" + "<p>" + colorL2 + "</p>";
+    let htmlString = "<p>" + ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) + "</p>";
     await alert("色のコントラスト比" + htmlString);
 
 }
