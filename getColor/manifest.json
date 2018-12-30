@@ -11,10 +11,8 @@
       {
       "type": "menu",
       "label": "色の比較",
-
       "commandId": "helloCommand",
       "shortcut": { "mac": "Cmd+Shift+P", "win": "Ctrl+Shift+P" }
-
     }
   ]
 }

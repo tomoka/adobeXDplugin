@@ -117,6 +117,9 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
      G2 = Math.pow(((G2_255 + 0.055)/1.055),2.4);
   }
   console.log("色の相対輝度G2-->" + G2); // Developer Consoleに出力
+
+  //console.log("色の相対輝度1-->" + (R1*0.2126/1) + (G1*0.7152/1) + (B1*0.0722/1)); // Developer Consoleに出力
+  //console.log("色の相対輝度2-->" + (R2*0.2126/1) + (G2*0.7152/1) + (B2*0.0722/1)); // Developer Consoleに出力
   
   //色の相対輝度出し方
   //colorL1 = ((R1*0.2126) + (G1*0.7152) + (B1*0.0722)).toFixed(4)*21;
@@ -125,7 +128,7 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   colorL2 = ((R2 * 299) + (G2 * 587) + (B2 * 114)/1000);
 
   //console.log("色のコントラスト比@colorL1:colorL2-->" + colorL1 + " : " + colorL2); // Developer Consoleに出力
-  console.log("色のコントラスト比@colorL1:colorL-->" + (colorL1+0.005/colorL2+0.005)); // Developer Consoleに出力
+  console.log("色のコントラスト比@colorL1:colorL-->" + (colorL1/colorL2)); // Developer Consoleに出力
   showAlert();
 }
 
