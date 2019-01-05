@@ -1,7 +1,14 @@
+//setTimeoutとclearTimeoutを定義しないとエラーになる
+global.setTimeout = function (fn) { fn() };
+global.clearTimeout = function () { };
+
 // Add this to the top of your main.js file
 const { Artboard, Rectangle, Ellipse, Text, Color } = require("scenegraph");// XD拡張APIのクラスをインポート
-const { alert, error } = require("./lib/dialogs.js"); //ダイアログのクラスインポート
-//const { jQuery } = require("./jquery/dist/jquery.js");
+//const { alert, error } = require("./lib/dialogs.js"); //ダイアログのクラスインポート
+const { jQuery, $ } = require("./lib/jquery.js")(window);
+
+//const jQuery = require("jQuery").default;
+//const jQuery = require('./lib/jquery.js').default;
 
 var el,R1_255,B1_255,G1_255,R1,B1,G1,R2_255,B2_255,G2_255,R2,B2,G2,colorL1,colorL2,nodeL1,nodeL2,nodeL1test,nodeL2test;
 
@@ -145,21 +152,23 @@ function showAlert() {
         height: 24px;
         overflow: hidden;
         }
+        .box1 {
+        width:100px;height:100px;display:inline-block;botder:solod 1px #000;background:`+ nodeL1.fill.toHex() +`;
+        }
+        .box2 {
+        width:100px;height:100px;display:inline-block;botder:solod 1px #000;background:`+ nodeL2.fill.toHex() +`;
+        }
         </style>
         <form method="dialog">
         <h1 class="h1">
         <span>Create Shape</span>
-        <img class="icon" src="./assets/icon.png" />
         </h1>
         <hr />
-        <p>Please enter the kind of shape you d like to create. You can also include additional options by separating them with spaces.</p>
-        <label>
+        <div>name:`+ nodeL1.fill.toHex() +`<div class="box1">あああ</div></div>
+        <div>name:`+ nodeL2.fill.toHex() +`<div class="box2">いいい</div></div>
         <span>`+ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) +`</span>
-        <input type="text" placeholder="e.g., Rectangle 10 10 20 40" />
-        </label>
         <footer>
-        <button type="cancel" uxp-variant="primary">Cancel</button>
-        <button type="submit" uxp-variant="cta">Create</button>
+        <button type="submit" uxp-variant="cta" id="">OK</button>
         </footer>
         </form>
     `;
@@ -167,6 +176,9 @@ function showAlert() {
     document.body.appendChild(dialog);
     dialog.appendChild(htmlString);
     dialog.showModal();
+
+jQuery("button").html("ボタン");
+
 }
 
 async function showError() {
