@@ -4,11 +4,8 @@ global.clearTimeout = function () { };
 
 // Add this to the top of your main.js file
 const { Artboard, Rectangle, Ellipse, Text, Color } = require("scenegraph");// XD拡張APIのクラスをインポート
-//const { alert, error } = require("./lib/dialogs.js"); //ダイアログのクラスインポート
-const { jQuery, $ } = require("./lib/jquery.js")(window);
-
-//const jQuery = require("jQuery").default;
-//const jQuery = require('./lib/jquery.js').default;
+const { alert, error } = require("./lib/dialogs.js"); //ダイアログのクラスインポート
+const $ = require("./lib/jquery.js");
 
 var el,R1_255,B1_255,G1_255,R1,B1,G1,R2_255,B2_255,G2_255,R2,B2,G2,colorL1,colorL2,nodeL1,nodeL2,nodeL1test,nodeL2test;
 
@@ -127,13 +124,81 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
   showAlert();
 }
 
-let dialog;
-let htmlString;
 function showAlert() {
     /* we'll display a dialog here */
     console.log("アラート");
+
+    const dialog = $( `
+    <dialog id="myDialog">
+        <form method="dialog" style="width:300;">
+            <h1>Hello!</h1>
+            <p>What is your name?</p>
+            <label>
+                <span>Name</span>
+                <input type="text" id="name" placeholder="Your name"/>
+            </label>
+            <label>
+              <span>比較</span><br>
+              <strong>`+ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) +`</strong>
+              <div>${ nodeL1.fill.toHex() }
+              <div class="box1">あああ</div></div>
+              <div>`+ nodeL2.fill.toHex() +`
+              <div style="width:100px;height:100px;display:inline-block;botder:solod 1px #000;background:${ nodeL2.fill.toHex() };">いいい</div></div>
+            </label>
+
+            <footer>
+                <button type="button" id="cancel">Cancel</button>
+                <button type="submit" id="ok" uxp-variant="cta">OK</button>
+            </footer>
+        </form>
+    </dialog>
+    `).get(1);
+
+    $(document.body).append(dialog);
+    const form = document.querySelector("form");
+    form.style.width="300px";
+
+    const box1 = document.querySelector(".box1");
+    box1.style.width="50px";
+    box1.style.height="50px";
+    box1.style.backgroundColor = nodeL1.fill.toHex();
+    //css({"width":"100px","height":"100px","display":"inline-block","botder":"solod 1px #000","background": nodeL1.fill.toHex()});
+
+    /*const box2 = document.querySelector(".box2");
+    box2.style.width="50px";
+    box2.style.height="50px";
+    box2.style.backgroundColor = nodeL2.fill.toHex();*/
+
+    $("#cancel").on("click", () => {
+        dialog.close();
+    });
+
+    $("#ok").on("click", () => {
+        dialog.close($("#name").val());
+    });
+
+    /* will work soon:
+    $(form).on("submit", () => {
+        dialog.close($("#name").val());
+    });
+    */
+    const r = dialog.showModal();
+    try {
+        //const r = await dialog.showModal();
+        
+        if (r) {
+            console.log(`Your name is ${r}`);
+        }
+    } catch (err) {
+        // cancelled with ESC
+    } finally {
+        //dialog.remove();
+        console.log(`Your name is ${r}`);
+        //dialog.showModal();
+}
+
     //let htmlString = "<p>" + ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) + "</p>";
-    dialog = document.createElement("dialog");
+    /*dialog = document.createElement("dialog");
     htmlString = document.createElement("div");
     htmlString.innerHTML = `
         <style>
@@ -177,7 +242,7 @@ function showAlert() {
     dialog.appendChild(htmlString);
     dialog.showModal();
 
-jQuery("button").html("ボタン");
+    jQuery("button").html("ボタン");*/
 
 }
 
