@@ -134,10 +134,29 @@ function showAlert() {
     htmlString = document.createElement("div");
     htmlString.innerHTML = `
         <style>
-        form {
-        width: 360px;
+        dialog {
+        background: #FFFFFF;
         }
-        .h1 {
+        header,main,footer {
+        padding: 10px 20px;
+        }
+        form {
+        width: auto;
+        }
+        .h1,.h2{
+        padding: 20px;
+        text-align: center;
+        background: transparent;
+        }
+        .h2{
+        font-size: 24px;
+        }
+        .box1 > p,
+        .box2 > p {
+        background: #FFFFFF;
+        text-align: center;
+        }
+        .box {
         align-items: center;
         justify-content: space-between;
         display: flex;
@@ -149,31 +168,50 @@ function showAlert() {
         height: 24px;
         overflow: hidden;
         }
+        .box {
+        display: flex;
+        justify-content: center;
+        }
         .box1 {
-        width:100px;height:100px;display:inline-block;botder:solod 1px #000;background:${ nodeL1.fill.toHex() };
+        width:100px;
+        height:100px;
+        botder:solod 1px #000;
+        background:${ nodeL1.fill.toHex() };
         }
         .box2 {
-        width:100px;height:100px;display:inline-block;botder:solod 1px #000;background:`+ nodeL2.fill.toHex() +`;
+        width:100px;
+        height:100px;
+        botder:solod 1px #000;
+        background:`+ nodeL2.fill.toHex() +`;
         }
         </style>
         <form method="dialog">
-        <h1 class="h1">
-        <span>Create Shape</span>
-        </h1>
-        <hr />
-        <div>name:`+ nodeL1.fill.toHex() +`<div class="box1">あああ</div></div>
-        <div>name:`+ nodeL2.fill.toHex() +`<div class="box2">いいい</div></div>
-        <span>`+ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) +`</span>
-        <footer>
-        <button type="button" id="cancel">Cancel</button>
-        <button type="submit" id="ok" uxp-variant="cta">OK</button>
-        </footer>
+          <header>
+            <h1 class="h1">コントラスト比<br><small>[Contrast Ratio]</small></h1>
+          </header>
+          <main>
+            <h2 class="h2">${ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) }</h2>
+            <h3 class="h2">判定<br>${ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) }</h3>
+            <div class="box">
+              <div class="box1">
+                <p>色１[${nodeL1.fill.toHex()}] </p>
+              </div>
+              <div class="box2">
+                <p>色２[${nodeL2.fill.toHex()}] </p>
+              </div>
+            </div>
+          </main>
+          <footer>
+            <button type="button" id="cancel">Cancel</button>
+            <button type="submit" id="ok" uxp-variant="cta">OK</button>
+          </footer>
         </form>
     `;
     //await alert("色のコントラスト比" + htmlString);
     document.body.appendChild(dialog);
     dialog.appendChild(htmlString);
     dialog.showModal();
+    console.log(document.body.innerHTML);
 
     const cancelBtn = document.getElementById("cancel");
           cancelBtn.addEventListener('click', () => {
