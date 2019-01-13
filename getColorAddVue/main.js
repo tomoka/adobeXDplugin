@@ -1,15 +1,17 @@
 // Add this to the top of your main.js file
 const { Artboard, Rectangle, Ellipse, Text, Color } = require("scenegraph");// XD拡張APIのクラスをインポート
-//const { alert, error } = require("./lib/dialogs.js"); //ダイアログのクラスインポート
+const { alert, error } = require("./lib/dialogs.js"); //ダイアログのクラスインポート
 
 //temporary shim until setTimeout is added to XD
-//global.setTimeout = (fn) => { fn() }
-//global.clearTimeout = (fn) => {}
+global.setTimeout = (fn) => { fn() }
+global.clearTimeout = (fn) => {}
 //const $ = require("./lib/jquery");
+const Vue = require("./lib/vue");
+const App = require('./tmp/App.vue');
 
 var el,R1_255,B1_255,G1_255,R1,B1,G1,R2_255,B2_255,G2_255,R2,B2,G2,colorL1,colorL2,nodeL1,nodeL2,nodeL1test,nodeL2test;
 
-function helloHandlerFunction(documentRoot) { // メインのファンクション
+function _helloHandlerFunction(documentRoot) { // メインのファンクション
   console.log("my function is called!"); // Developer Consoleに出力
   console.log(documentRoot.items);
 
@@ -126,11 +128,12 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
 
 let dialog;
 let htmlString;
-function showAlert() {
+let id;
+function showAlert(id = "dialog") {
     /* we'll display a dialog here */
     console.log("アラート");
     //let htmlString = "<p>" + ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) + "</p>";
-    dialog = document.createElement("dialog");
+     /*dialog = document.createElement("dialog");
     htmlString = document.createElement("div");
     htmlString.innerHTML = `
         <style>
@@ -217,8 +220,8 @@ function showAlert() {
           cancelBtn.addEventListener('click', () => {
         　　 dialog.remove();
             return false;
-            }, false);
-}
+            }, false); */
+  }
 
 async function showError() {
     /* we'll display a dialog here */
@@ -227,6 +230,40 @@ async function showError() {
     let htmlString = "<p>" + ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) + "</p>";
     await alert("色のコントラスト比" + htmlString);
 
+}
+
+function createDialog(id = "dialog") {
+    document.body.innerHTML = `<dialog id="${id}"><div id="container"></div></dialog>`;
+    let dialog = document.getElementById(id);
+    new Vue({
+        el: "#container",
+        components: { App },
+        render(h) {
+            return h(App, { props: { dialog } });
+        },
+    });
+
+    return dialog;
+}
+
+function replaceText(children, prev, after) {
+    children.forEach(elm => {
+        if (elm instanceof Text) {
+            elm.text = elm.text.replace(prev, after);
+        }
+    });
+}
+// エントリポイントとなるメソッドです
+async function helloHandlerFunction(selection, root) {
+    const dialog = createDialog();
+    const result = await dialog.showModal();
+    if (result) {
+        root.children.forEach(elm => {
+            if (elm instanceof Artboard) {
+                replaceText(elm.children, new RegExp(result[0], 'g'), result[1]);
+            }
+        });
+    }
 }
 
 module.exports = { // コマンドIDとファンクションの紐付け
