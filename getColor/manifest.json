@@ -1,6 +1,6 @@
 {
   "id": "ContrastRatio",
-  "name": "ContrastRatio",
+  "name": "色のコントラスト比",
   "description": "色のコントラスト比",
   "version": "1.0.0",
   "host": {

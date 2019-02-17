@@ -147,6 +147,13 @@ function showAlert() {
         padding: 5px;
         display: block;
         }
+        footer {
+        text-align: center;
+        /*border: solid #000000 1px;*/
+        }
+        button {
+        margin: 0 auto;
+        }
         form {
         width: auto;
         }
@@ -180,12 +187,13 @@ function showAlert() {
         .box {
         display: flex;
         justify-content: center;
-        botder:solod 1px #000;
+        /*border: solid #000000 1px;*/
         width: 400px;
         margin-top:1em;
         }
-        .box .dummy {
-        padding:1em;
+        .dummy {
+        width: 400px;
+        padding:2em;
         white-space: normal;
         background-color:${nodeL1.fill.toHex()};
         color:${nodeL2.fill.toHex()};
@@ -193,14 +201,14 @@ function showAlert() {
         .box1 {
         width:150px;
         height:50px;
-        botder:solid 1px #000;
-        background:${ nodeL1.fill.toHex() };
+        /*border: solid #000000 1px;*/
+        background-color:${ nodeL1.fill.toHex() };
         }
         .box2 {
         width:150px;
         height:50px;
-        botder:solid 1px #000;
-        background:`+ nodeL2.fill.toHex() +`;
+        /*border: solid #000000 1px;*/
+        background-color:${ nodeL2.fill.toHex() };
         }
         </style>
         <form method="dialog">
@@ -218,14 +226,15 @@ function showAlert() {
               </div>
             </div>
 
-            <div class="box">
-                <p class="dummy">ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト</p>
+            <div>
+	            <p><small>※クリックすると入れ替わります</small></p>
+                <p class="dummy" onclick="chengeElement();">ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト</p>
             </div>
 
           </main>
           <footer>
-            <button type="button" id="cancel">Cancel</button>
-            <button type="submit" id="ok" uxp-variant="cta">OK</button>
+            <!--button type="button" id="cancel">やり直す</button-->
+            <button type="submit" id="ok" uxp-variant="cta">閉じる</button>
           </footer>
         </form>
     `;
@@ -236,11 +245,35 @@ function showAlert() {
     dialog.showModal();
     console.log(document.body.innerHTML);
 
+    function chengeElement(){
+    	var elt1 = document.getElementsByClassName("box1");
+    	var elt2 = document.getElementsByClassName("box2");
+
+    	elt1[0].style.backgroundColor = "blue";
+    	elt2[0].style.backgroundColor = "blue";
+    }/**/
+
+		    	var elt1 = document.getElementsByClassName("box1");
+		    	var elt2 = document.getElementsByClassName("box2");
+		    	console.log(elt1[0].style.color);
+		    	console.log(elt2[0].style.background);
+    /*const chengeElement = document.getElementByClassName("dummy");
+          chengeElement.addEventListener('click', () => {
+		    	var elt1 = document.getElementsByClassName("box1");
+		    	var elt2 = document.getElementsByClassName("box2");
+		    	console.log(elt1);
+		    	console.log(elt2);
+
+		    	elt1.style.color = "blue";
+		    	elt2.style.backgroundColor = "blue";
+            };
+
+
     const cancelBtn = document.getElementById("cancel");
           cancelBtn.addEventListener('click', () => {
         　　 dialog.remove();
             return false;
-            }, false);
+            }, false);*/
 }
 
 async function showError() {
