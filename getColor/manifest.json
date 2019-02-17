@@ -1,7 +1,7 @@
 {
   "id": "ContrastRatio",
   "name": "ContrastRatio",
-  "description": "色の比較",
+  "description": "色のコントラスト比",
   "version": "1.0.0",
   "host": {
     "app": "XD",
@@ -10,10 +10,8 @@
   "uiEntryPoints": [
       {
       "type": "menu",
-      "label": "色の比較",
-
-      "commandId": "helloCommand",
-      "shortcut": { "mac": "Cmd+Shift+P", "win": "Ctrl+Shift+P" }
+      "label": "ContrastRatio",
+      "commandId": "helloCommand"
 
     }
   ]

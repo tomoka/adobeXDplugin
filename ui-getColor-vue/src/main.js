@@ -5,11 +5,15 @@ global.clearTimeout = function () { };
 const styles = require("./styles.css");
 const Vue = require("vue").default;
 const hello = require("./hello.vue").default
+const colorGetFunction = require("./colorGetFunction.js");
 
-const { Text, Color } = require("scenegraph");
+const { Artboard, Rectangle, Ellipse, Text, Color } = require("scenegraph");
 
 let dialog;
+
 function getDialog() {
+    colorGetFunction(documentRoot);
+
     if (dialog == null) {
         document.body.innerHTML = `<dialog><div id="container"></div></dialog>`
         dialog = document.querySelector("dialog");

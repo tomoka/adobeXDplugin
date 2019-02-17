@@ -9,9 +9,9 @@ const { Artboard, Rectangle, Ellipse, Text, Color } = require("scenegraph");// X
 
 var el,R1_255,B1_255,G1_255,R1,B1,G1,R2_255,B2_255,G2_255,R2,B2,G2,colorL1,colorL2,nodeL1,nodeL2,nodeL1test,nodeL2test;
 
-function helloHandlerFunction(documentRoot) { // メインのファンクション
+function helloHandlerFunction(selection) { // メインのファンクション
   console.log("my function is called!"); // Developer Consoleに出力
-  console.log(documentRoot.items);
+  //console.log(documentRoot.items);
 
   el = new Text(); // XDのTextクラスからインスタンスを生成
   el.text = "Hello, World!";
@@ -23,35 +23,41 @@ function helloHandlerFunction(documentRoot) { // メインのファンクショ�
     }
   ];
 
-  nodeL1test = documentRoot.items.length;
-  nodeL2test = documentRoot.items[0];
-  
-  console.log("The selected node is nodeL1: " + nodeL1test);
-  console.log("The selected node is nodeL2: " + nodeL2test);
+  //nodeL1test = documentRoot.items.length;
+  //nodeL2test = documentRoot.items[0];
+  nodeL1test = selection.items[0];
+  nodeL2test = selection.items[1];
+
+  console.log("test:The selected node is nodeL1: " + nodeL1test);
+  console.log("test:The selected node is nodeL2: " + nodeL2test);
 
   //selection.insertionParent.addChild(el); // XDノードツリーにテキストオブジェクトを追加
-  documentRoot.items[0].addChild(el); // XDノードツリーにテキストオブジェクトを追加
-  el.moveInParentCoordinates(100, 100); // テキストオブジェクトの表示位置を指定
-
+  //documentRoot.items[0].addChild(el); // XDノードツリーにテキストオブジェクトを追加
+  //el.moveInParentCoordinates(100, 100); // テキストオブジェクトの表示位置を指定
 
   //dummy
-  nodeL1 = new Rectangle();
-  nodeL1.width = 30;
-  nodeL1.height = 20;
-  nodeL1.moveInParentCoordinates(30,20);
-  nodeL1.fill = new Color("000000");
+  //nodeL1 = new Rectangle();
+  nodeL1 = nodeL1test;
+  //nodeL1.width = 30;
+  //nodeL1.height = 20;
+  //nodeL1.moveInParentCoordinates(30,20);
+  //nodeL1.fill = new Color("000000");
 
-  nodeL2 = new Rectangle();
-  nodeL2.width = 40;
-  nodeL2.height = 30;
-  nodeL2.moveInParentCoordinates(60,10)
-  nodeL2.fill = new Color("ffffff");
+  //nodeL2 = new Rectangle();
+  nodeL2 = nodeL2test;
+  //nodeL2.width = 40;
+  //nodeL2.height = 30;
+  //nodeL2.moveInParentCoordinates(60,10)
+  //nodeL2.fill = new Color("ffffff");
 
-  documentRoot.items[0].addChild(nodeL1);
-  documentRoot.items[0].addChild(nodeL2);
+  //documentRoot.items[0].addChild(nodeL1);
+  //documentRoot.items[0].addChild(nodeL2);
+
+  /*nodeL1.moveInParentCoordinates(100, 100);
+  nodeL2.moveInParentCoordinates(100, 100);
 
   nodeL1.moveInParentCoordinates(100, 100);
-  nodeL2.moveInParentCoordinates(100, 100);
+  nodeL2.moveInParentCoordinates(100, 100);*/
 
   /*----------------------------------------------------------------
   一つ目の色
@@ -138,16 +144,19 @@ function showAlert() {
         background: #FFFFFF;
         }
         header,main,footer {
-        padding: 10px 20px;
+        padding: 5px;
+        display: block;
         }
         form {
         width: auto;
         }
+        h1,h2,
         .h1,.h2{
-        padding: 20px;
+        padding: 5px 20px;
         text-align: center;
         background: transparent;
-        }
+        display: block;
+       }
         .h2{
         font-size: 24px;
         }
@@ -171,27 +180,35 @@ function showAlert() {
         .box {
         display: flex;
         justify-content: center;
+        botder:solod 1px #000;
+        width: 400px;
+        margin-top:1em;
+        }
+        .box .dummy {
+        padding:1em;
+        white-space: normal;
+        background-color:${nodeL1.fill.toHex()};
+        color:${nodeL2.fill.toHex()};
         }
         .box1 {
-        width:100px;
-        height:100px;
-        botder:solod 1px #000;
+        width:150px;
+        height:50px;
+        botder:solid 1px #000;
         background:${ nodeL1.fill.toHex() };
         }
         .box2 {
-        width:100px;
-        height:100px;
-        botder:solod 1px #000;
+        width:150px;
+        height:50px;
+        botder:solid 1px #000;
         background:`+ nodeL2.fill.toHex() +`;
         }
         </style>
         <form method="dialog">
           <header>
-            <h1 class="h1">コントラスト比<br><small>[Contrast Ratio]</small></h1>
+            <h1>コントラスト比<br><small>Contrast Ratio</small></h1>
           </header>
           <main>
-            <h2 class="h2">${ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) }</h2>
-            <h3 class="h2">判定<br>${ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) }</h3>
+            <h2 class="h2">判定<br>${ ((Math.max(colorL1,colorL2)+0.05)/(Math.min(colorL1,colorL2)+0.05)).toFixed(2) }</h2>
             <div class="box">
               <div class="box1">
                 <p>色１[${nodeL1.fill.toHex()}] </p>
@@ -200,6 +217,11 @@ function showAlert() {
                 <p>色２[${nodeL2.fill.toHex()}] </p>
               </div>
             </div>
+
+            <div class="box">
+                <p class="dummy">ダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキストダミーテキスト</p>
+            </div>
+
           </main>
           <footer>
             <button type="button" id="cancel">Cancel</button>
@@ -207,6 +229,7 @@ function showAlert() {
           </footer>
         </form>
     `;
+    
     //await alert("色のコントラスト比" + htmlString);
     document.body.appendChild(dialog);
     dialog.appendChild(htmlString);
